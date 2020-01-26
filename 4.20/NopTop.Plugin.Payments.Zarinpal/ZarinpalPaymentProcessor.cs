@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
@@ -38,7 +38,7 @@ namespace NopTop.Plugin.Payments.Zarinpal
         #endregion
 
         #region Fields
-
+        private readonly CustomerSettings _customerSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPaymentService _paymentService;
         private readonly CurrencySettings _currencySettings;
@@ -78,7 +78,8 @@ namespace NopTop.Plugin.Payments.Zarinpal
             IStoreService storeService,
             ICustomerService customerService,
             IWorkContext workContext,
-            IStoreContext storeContext
+            IStoreContext storeContext,
+            CustomerSettings _customerSettings
             )
         {
             this._paymentService = paymentService;
@@ -97,7 +98,8 @@ namespace NopTop.Plugin.Payments.Zarinpal
             this._webHelper = webHelper;
             this._ZarinPalPaymentSettings = ZarinPalPaymentSettings;
             this._storeContext = storeContext;
-            _languageService = languageService;
+            this._languageService = languageService;
+            this._customerSettings = _customerSettings;
         }
 
         #endregion
@@ -125,14 +127,27 @@ namespace NopTop.Plugin.Payments.Zarinpal
         /// <param name="postProcessPaymentRequest">Payment info required for an order processing</param>
         public void PostProcessPayment(PostProcessPaymentRequest postProcessPaymentRequest)
         {
-            var total = Convert.ToInt32(Math.Round(postProcessPaymentRequest.Order.OrderTotal, 2));
-            if (_ZarinPalPaymentSettings.RialToToman) total = total / 10;
-            Customer cm = _customerService.GetCustomerById(postProcessPaymentRequest.Order.CustomerId);
+            Customer customer = postProcessPaymentRequest.Order.Customer;
+            Order order = postProcessPaymentRequest.Order;
 
+            var total = Convert.ToInt32(Math.Round(order.OrderTotal, 2));
+            if (_ZarinPalPaymentSettings.RialToToman) total = total / 10;
+
+            string PhoneOfUser = String.Empty;
+            if (_customerSettings.PhoneEnabled)// Default Phone number of the Customer
+                PhoneOfUser = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.PhoneAttribute);
+            if (string.IsNullOrEmpty(PhoneOfUser))//Phone number of the BillingAddress
+                PhoneOfUser = order.BillingAddress.PhoneNumber;
+            if (string.IsNullOrEmpty(PhoneOfUser))//Phone number of the First Address
+                PhoneOfUser = _workContext.CurrentCustomer.Addresses.FirstOrDefault()?.PhoneNumber ?? "";
+
+            var Name = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.FirstNameAttribute);
+            var Family = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.LastNameAttribute);
+
+            string NameFamily = $"{Name ?? ""} {Family ?? ""}".Trim();
             string urlToRedirect = "";
             string ZarinGate = _ZarinPalPaymentSettings.UseZarinGate ? _ZarinPalPaymentSettings.ZarinGateType.ToString() : null;
-            string Phone = _workContext.CurrentCustomer.Addresses.FirstOrDefault().PhoneNumber ?? "";
-            string Description = $"{_storeService.GetStoreById(postProcessPaymentRequest.Order.StoreId).Name} -{cm.Email}{(string.IsNullOrEmpty(Phone) ? "" : " - " + Phone)}";
+            string Description = $"{_storeService.GetStoreById(order.StoreId).Name}{(string.IsNullOrEmpty(NameFamily) ? "" : $" - {NameFamily}")} - {customer.Email}{(string.IsNullOrEmpty(PhoneOfUser) ? "" : $" - {PhoneOfUser}")}";
             string CallbackURL = string.Concat(_webHelper.GetStoreLocation(), "Plugins/PaymentZarinpal/ResultHandler", "?OGUId=" + postProcessPaymentRequest.Order.OrderGuid);
             string StoreAddress = _webHelper.GetStoreLocation();
 
@@ -145,8 +160,8 @@ namespace NopTop.Plugin.Payments.Zarinpal
                                 _ZarinPalPaymentSettings.MerchantID,
                                 total,
                                 Description,
-                                cm.Email,
-                                Phone,
+                                customer.Email,
+                                PhoneOfUser,
                                 CallbackURL
                             ).Result;
 
@@ -163,8 +178,8 @@ namespace NopTop.Plugin.Payments.Zarinpal
                                 _ZarinPalPaymentSettings.MerchantID,
                                 total,
                                 Description,
-                                cm.Email,
-                                Phone,
+                                customer.Email,
+                                PhoneOfUser,
                                 CallbackURL
                             ).Result;
 
@@ -184,7 +199,7 @@ namespace NopTop.Plugin.Payments.Zarinpal
                     { "MerchantID", _ZarinPalPaymentSettings.MerchantID }, //Change This To work, some thing like this : xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
                     { "Amount", total.ToString() }, //Toman
                     { "CallbackURL", CallbackURL },
-                    { "Mobile", Phone },
+                    { "Mobile", PhoneOfUser },
                     { "Description", Description }
                 };
 
