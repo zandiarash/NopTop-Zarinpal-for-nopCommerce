@@ -200,6 +200,7 @@ namespace NopTop.Plugin.Payments.Zarinpal
                     { "Amount", total.ToString() }, //Toman
                     { "CallbackURL", CallbackURL },
                     { "Mobile", PhoneOfUser },
+                    { "Email", customer.Email },
                     { "Description", Description }
                 };
 
