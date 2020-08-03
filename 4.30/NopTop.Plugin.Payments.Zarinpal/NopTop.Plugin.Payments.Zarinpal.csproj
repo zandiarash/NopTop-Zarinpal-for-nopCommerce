@@ -8,7 +8,7 @@
     <PackageProjectUrl>http://www.NopTop.ir/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/zandiarash/NopTop-Zarinpal-for-nopCommerce</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <OutputPath>C:\Workspace\NopCommerce\Presentation\Nop.Web\Plugins\NopTop.Payments.ZarinPal\</OutputPath>
+    <OutputPath>..\..\Presentation\Nop.Web\Plugins\NopTop.Payments.ZarinPal\</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
