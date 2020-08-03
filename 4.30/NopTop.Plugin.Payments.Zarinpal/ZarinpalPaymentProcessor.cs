@@ -137,12 +137,15 @@ namespace NopTop.Plugin.Payments.Zarinpal
             if (_ZarinPalPaymentSettings.RialToToman) total = total / 10;
 
             string PhoneOfUser = String.Empty;
+            var billingAddress = _addressService.GetAddressById(order.BillingAddressId);
+            var shippingAddress = _addressService.GetAddressById(order.ShippingAddressId ?? 0);
+
             if (_customerSettings.PhoneEnabled)// Default Phone number of the Customer
                 PhoneOfUser = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.PhoneAttribute);
             if (string.IsNullOrEmpty(PhoneOfUser))//Phone number of the BillingAddress
-                PhoneOfUser = _addressService.GetAddressById(order.BillingAddressId).PhoneNumber;
-            if (string.IsNullOrEmpty(PhoneOfUser))//Phone number of the First Address
-                PhoneOfUser = _customerService.GetAddressesByCustomerId(_workContext.CurrentCustomer.Id).FirstOrDefault()?.PhoneNumber ?? "";
+                PhoneOfUser = billingAddress.PhoneNumber;
+            if (string.IsNullOrEmpty(PhoneOfUser))//Phone number of the ShippingAddress
+                PhoneOfUser = string.IsNullOrEmpty(shippingAddress?.PhoneNumber) ? PhoneOfUser : $"{PhoneOfUser} - {shippingAddress.PhoneNumber}";
 
             var Name = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.FirstNameAttribute);
             var Family = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.LastNameAttribute);
