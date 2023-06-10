@@ -38,6 +38,6 @@ Special Thanks to Bo [Norgaard](https://www.codeproject.com/Members/Bo-Norgaard)
 ## Be in touch : ##
 Call : [+989139435686](tel:+989139435686)<br/>
 Telegram : [@ArashZandi](https://t.me/ArashZandi)<br/>
-Whatsapp : [+989139435686](whatsapp://tel:+989139435686)<br/>
+Whatsapp : [+989139435686]([https://t.me/ArashZandi](https://wa.me/989139435686))<br/>
 Email : [ZandiArash @ Hotmail.com](mailto:Arashz44@Gmail.com)
 
