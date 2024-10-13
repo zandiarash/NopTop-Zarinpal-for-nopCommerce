@@ -29,6 +29,7 @@ Forums: [https://www.nopcommerce.com/boards/](https://www.nopcommerce.com/boards
 
 Gitter.im chat room: [https://gitter.im/nopCommerce-official/Lobby](https://gitter.im/nopCommerce-official/Lobby)
 
+NopTop Zarinpal Extension : [https://www.nopcommerce.com/en/zarinpal-payment-noptop](https://www.nopcommerce.com/en/zarinpal-payment-noptop)
 
 ## Zarinpal resources: ##
 website [https://www.zarinpal.com](https://www.zarinpal.com)
