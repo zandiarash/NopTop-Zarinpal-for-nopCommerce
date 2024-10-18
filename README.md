@@ -29,6 +29,7 @@ Forums: [https://www.nopcommerce.com/boards/](https://www.nopcommerce.com/boards
 
 Gitter.im chat room: [https://gitter.im/nopCommerce-official/Lobby](https://gitter.im/nopCommerce-official/Lobby)
 
+NopTop Zarinpal Extension : [https://www.nopcommerce.com/en/zarinpal-payment-noptop](https://www.nopcommerce.com/en/zarinpal-payment-noptop)
 
 ## Zarinpal resources: ##
 website [https://www.zarinpal.com](https://www.zarinpal.com)
@@ -36,8 +37,9 @@ website [https://www.zarinpal.com](https://www.zarinpal.com)
 Special Thanks to Bo [Norgaard](https://www.codeproject.com/Members/Bo-Norgaard) for sharing [IP list](https://www.codeproject.com/Articles/2553/IP-list-Check-an-IP-number-against-a-list-in-C)
 
 ## Be in touch : ##
+Website : [www.noptop.ir](http://noptop.ir)<br/>
 Call : [+989139435686](tel:+989139435686)<br/>
-Telegram : [@ArashZandi](https://t.me/ArashZandi)<br/>
-Whatsapp : [+989139435686](whatsapp://tel:+989139435686)<br/>
-Email : [Arashz44 @ Gmail.com](mailto:Arashz44@Gmail.com)
+Telegram : [@ZandiArash](https://t.me/ZandiArash)<br/>
+Whatsapp : [+989139435686](https://wa.me/989139435686)<br/>
+Email : [ZandiArash @ Hotmail.com](mailto:Arashz44@Gmail.com)
 
