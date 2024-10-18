@@ -38,8 +38,6 @@ Special Thanks to Bo [Norgaard](https://www.codeproject.com/Members/Bo-Norgaard)
 
 ## Be in touch : ##
 Website : [www.noptop.ir](http://noptop.ir)<br/>
-Call : [+989139435686](tel:+989139435686)<br/>
 Telegram : [@ZandiArash](https://t.me/ZandiArash)<br/>
-Whatsapp : [+989139435686](https://wa.me/989139435686)<br/>
 Email : [ZandiArash @ Hotmail.com](mailto:Arashz44@Gmail.com)
 
