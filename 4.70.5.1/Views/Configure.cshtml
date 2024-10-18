@@ -1,0 +1,285 @@
+﻿@model NopTop.Plugin.Payments.Zarinpal.Models.ConfigurationModel
+@inject Nop.Core.IWebHelper webHelper
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync("StoreScopeConfiguration")
+
+<style>
+    p {
+        text-align: justify;
+    }
+
+    .BtnSave {
+        width: 100%;
+    }
+
+    .ZarinFooter {
+        background-color: #cdcdcb;
+    }
+
+    .list-unstyled li a {
+        color: #c3aa81 !important;
+    }
+
+    .list-unstyled li a:hover {
+        color: #b47e27 !important;
+    }
+
+    .ZarinFooter {
+        background: -webkit-linear-gradient(left top, #858585, #525252);
+        background: -moz-linear-gradient(left top, #858585, #525252);
+        background: -o-linear-gradient(left top, #858585, #525252);
+        background: -ms-linear-gradient(left top, #858585, #525252);
+        background: linear-gradient(to right bottom, #858585, #525252);
+    }
+
+    .ZarinFooterAnimation {
+        width: 100%;
+        height: 100%;
+        background: none;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0CAMAAAD8CC+4AAACE1BMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8Jf43gAAAAsXRSTlMAAAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+QEFCQ0RFRkdISUpLTE1OT1BRUlRVVldYWVpbXF1eX2BhYmNkZWZnaGlqa2xtbnBxcnR1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrOQelO5AAALPElEQVR4XuzAMQEAAADCIPuntsYOWBAAAAAAAHD27vipiTOP4/jwbDabJRGQEIMIKmIpokixlFLRAipXDushRU9F5CrUK6ViLaVYVSwqSlGlKgf0FEFABELI7p94ZyVZZ+5+w8ww+32//4VXnp3Mfp6ZTfm/6Ybf79NVyjqJko+uNuRX1NZUFKSLUQfdk1vXNfDgwa3u+m06ADLQtfzTD+djlrUy/3vrBzLUQQ+f/Je92sSZHAAkoBtVg5Ydb+igAYAA9E0tUwlz6+W5MAAC0Hdeem0nWry8EwAB6MV9Sw565EoxAALQC3sWHfSln4oAEIC+pX3GQZ/7ZgsAAtADdb876E/rAwAIQFcFnYmj/qprpwJAAHqKUXZpKvaG3JrpKTcBeI9phml41ufgYpa03ZmYnpoYbN/3Hh/u5A3t+fzw5yVh37pc2fTNnx5vPdtYmWu8NwBSaaWn+u4/eXClpSKo1hG6kzctlJXufX8ApDYe6Hm+bNv28uQvtcF1gJ78yCzvnbPftnB9vykBnXJaJ523HxfyBKCTd9+N5QR67PanXvejU+CLx5adaOzLNPejU9rxf9tOkyc3uh+dNnw5bjs9a8pwPzqZB+7FEubWo1rT/eikdl585QzWPUVKADqlH7kXWTWPPmrISBGATp7cpuGFt+d85HS+RwQ6GVvre36fmpt+8nNjgU/Ia1jSg3vqz3a01peGjRQx6KSnhXPCzo4FOoFOoCch0Al0Ap1AJ9AJdAKdQCfQCXQCnUBPSqAT6AQ6gU6gE+gEOoFOoBPoBDqBvvZAJ9AJdAKdQCfQCXQCnUAn0Al0Aj0JgU6gE+gEOoFOoBPoBDqBnvyU12caHkHooKtA7r6aIweKMnUp6KBrm6rOXx0euXv5b4WpMtBBV9lHB6aWoivRhScX9poi0EFPr7sbsf8s9uzbD3UB6KCroh8X7dWsp41BAeigB+re+Xz168tFmvvRQQ+1TtuJooNVhvvRQc+58MpBX3lY63M/OujhthkHPTp0UMBJBz392JiVQF/s2+txPzroenl/NIE+2ZrjAIDu3rL/PmHFD/rVClMCOuh6YcdE9A17bP5GbaYDALqbMwpPXHv6Yub5cGdVUAlBZ2XzhErrT51rPrg9VdDKxp6uBYKhDIM9nZszoBPoBDqBTqAT6AQ6gU6gE+gEOoGehEAn0Al0Ap1AJ9AJdAKdQCfQCXQC/T0GOoFOoBPoBDqBTqAT6AQ6gU6gk8fwGZokdDJzP6qurdqVpUtBJxWs/Pr68Mi9nq+K/ULQKVjXP7Mcs6JLE11lpgh0Sj04ELHfNvVdoUcAOqmCi/N2vNHGjcr96JRa+8BOtPhDoe5+dMo6PemgW4NVpvvRKbt9znZ6dCjgfnQKnXvpmFvD1anuR6e0o6MO+vIvpYb70Ukvux5NoE+15WgC0Cl0IvH5mejAfpPBRUJ6YccfsTfsVmTo6CYlAp2MwpO/jr+cm3r84+FsjcFFSHr442Pnzp85UpSu5AwupKdtys7yK4F7OoGehEAn0Al0Ap1AJ9AJdAKdQCfQCXQCfa2BTqAT6AQ6gU6gE+gEOoFOoBPoBHryAp1AJ9AJdAKdQCfQCXQCnUAn0An0tQc6gU6gE+gEOoFOoBPoBDqBTqAT6EkIdAKdQCfQCXQCnUAn0Al0Ap1AT36gE+gEOoFOoBPoBDqBTqAb6VlBvxIkCLp/W1VT6+n6vSFdiB/oKlj17b0/Zqae/tJcmCqCD3QVPNw/H7Nt24qOdRSbEvhA91VcW7TfZk2c2aIE8IEePjtlx4sOfOpzvx7onj1Xlu1EE01B9+uBbhwYtp3mOnLdrwe6r2bEdlro2uZ+PdC9nw3ZTrPnt7hfD3RV1BNx0EePZgjgY3DJbBq34uZLP5d6BfCB7tnV9cJaNR9uCIrwY3Dxl3WNLkRjK5GZO425ugxABpdAcVPP0JORXy9UbxbzcGdl07N2Hfzi8CfbNmiCDNnTPT5/qsGeLgCdQCfQCXQCfa2BTqAT6AQ6gU6gE+gEOoFOoBPoBHryAp1AJ9AJdAKdQCfQCXQCnUAn0An0tQc6gU6gE+gEOoFOoBPoBDqBTqAT6MkLdAKdQCfQCXQCnUAn0Al0Ap1AJ9DXHugEOoFOoBPoBDqBTqAT6AQ6gU6gJyPQCXQCnUAn0Al0Ap2UP5yXm+WTg04qraiuravzVHW+X8lAJ0+49ofHM6/nJ3/7Z0WGkoBOalP9nSXL/m/WbG9lQAI6mZX9EXu1ua5CTQA6Zbe8sBONHAm4H5204t6Ig/6ydbP70UmvGLQc9KXufPejk3f/kO0UuVzgfnTylN2IOujzF/Lcj05q64V5B338WIYAdAocuh+Lmy/37dUFoJPKOz26+oCP3PtLkMFFRHrBqaGZSDS6ONnfkK2BHk+lBnOyN5ouVTfyajuu3xvsPftZKGEOuplffbL9H8crtvjcqa4Ftn5UVbk724zPLaCrjMrO4eezL8dvtZX4XTu1eXXNAQQ9o/ranP2mlRfdpb4UAYFu7OtbTLyabs9XAvxAD596Z4V6UJPqbjrQ/3eFmmkNu58PdG/lYMxBX+ze7n4+0I2qoXenx0s73M8Huv7xzaiD/spZodwb6Krg+9cO+h9NmQL8GFwyGp4mzK3+cq8AP9A9BR2TcfPHxzeJAGRw8e1uf7xo2fbK7FDzVo8MQQYXY0dD9+1H9298U5OjSyFkZVNpOypqqsvy/EoAHujxlG54tXVADjqBTqAT6AQ6gU6gE+gEOoFOoCch0Al0Ap1AJ9AJdAKdQCfQCXQCnUBfe6AT6AQ6gU7KY5imoSk56KRlfFB5uLYiP02Tgk7ebfXdtx8+uPndoS26DHTyfHBuZD66srI8N9ycp0SgU+6ZMcv+s5WRxiwJ6JRa81vMXi3aX64LQKfc8zN2POtZc4b70UkV/7xoJ5rv2up+dNLK+pcd9MXLBe5HJ1VyZclBn/9+mwB02t4556C/OJMlAJ3Sj44mzK3hakMAOmkfdr+Ko0+fz2NwEZFZ0Tsbe/udoYslXhnoFNjXcXdienrsVuseH4OLlIzcyuMtLV+WZ+uCVjbypgWDG3QuURDoBDqBTqAT6AQ6gZ6EQCfQCXQCnUAn0Al0Ap1AJ9AJdAJ9rYFOoBPoBDqBTqAT6AQ6gU6gE+gEevICnUAn0Al0Ap1AJ9AJdAKdQCfQCfS1BzqBTqAT6AQ6gU6gE+gEOoFOoBPoyQt0Ap1AJ9AJdAKdQCfQCXQCnUAn0Nce6AQ6gU6gE+gEOoFOoBPoBDqBnuyUpinQRWUE83ftys/ygS4mlV5yrLO3t/N4WVADXUYqs/rHsflIZG6870hIyUVXZmYoK+CRgb7hYP+C/WdLtw+li0UP7Kw92XamoTSoBJhrxZdf26st9ZZoMtFVVs2lR89npkZvfJWvux8949ionWiiKUMmeuYXg4v2m6LjbTs016Nv75xz0Bcu5otE91UORBM//OaQ281Vcd+Sgx69ulsiupbz9awdz+ov092PHnkXfY9EdOOja1E70dix9BSXt6PrlYM+371DInpq9bDloE+fC7sdPfjVhIP+7ERQInrg0MN30Gfbs92Oru+7thw3X7n5iS4R3Txw9x30qZZQitsL/jX+bLNGGkMiBxfvrt6Ig/64LuB6dJVz9OZU1LYiL+80bdVEoqvgiWcJ80hPkRLwTi5U0dIzcLOntWqzLnRw0Xdfiv+djf12eIOIycUIF5WVFWWbSuy0mlp+6VnEsq3o7K2GkJJyh8Lj0ZTkSxT+3c29Q4/u3zi/P6hSSMjKpgeLqw5Vl+WamEva03XTn2qs37GF/tMOHBMAAAAgDLJ/alPsgyUAAAAAAIAD+CMd2xRKhF0AAAAASUVORK5CYII="), url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAMAAAC3Ycb+AAABwlBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////V5VU7AAAAlnRSTlMAAAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERkdISUpLTE1OT1BRUlNVVldYWVpbXF1eX2BhYmNkZWZnaGlqa21ub3Bxc3R1dnd4eXp7fH1+f4CCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmAsba+AAAI4klEQVR4Xu3da1cUVxaA4ck+VdXVXU03Xd3NVVuQFsJNEECIGJQIGFEk8R5vA4GRgKgSzSQS1YigCAFR+vzfmcxn/IRr3LXyvn/hWafq7E2x+h97iIiI6Iu/UyJfqO7vBiJGkwggxk+mU3FHANGRm647fPRIQ+gJIBoyqabR2z9NnW3PuoAoSGL7R+6tbr5ZHC8mRAEAIEHL9Vcla99Md6eNAhFAkp0zG9barYVjISAKkqD1xqq19u2/utNGBwDvkIXVzTc/jxfjAoiCTKpx5NadybG20GEOUZGT2t/Wdbgu4zEYKsnEkqmkbwQQNYlh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"), url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAABBVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////85QWmiAAAAV3RSTlMAAAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUnKCkqKywtMDEyMzQ2ODk7PD0/QEFCQ0RFRkdJS01OUFJVVldYWVtcXV9hYmpscXwejIx6AAADsUlEQVR4XuzZiVKbVRjHYXnP+ZYESNISKMRggS4spbaIC7agrcWtLq3r/V+KF+A486rTjLHP7xKeOfmfM1/e+ftpZTFFqbGynC0eq93eGwasXDe/+nW/wMo1+vSbWcDKVccbnc16I8GCBUuwYMGCBQuWoun7msNS3Tw9npQUlrqTVy/3mhSW6vTkcJw+WTare6s2y20ICxasaPsKK1l3+2yjwMo1fvH7wxZWrv7wcqfCylX69SZg/T+DBQsWLFiCBQsWLFiwBAsWLFiwYAkWrKiDvsLKVacPH9wosFK1Rz9+d7eFlapuHB1NnKxcUfvOZv1VbkNYsKId9sk9hdUenN3tcwCw1p/8fDVKAjhZ8+PdLgcAK5quiTcM4DaEBUuwSpMdW1hltDsfBqxUze2ri1sVVqrmvacfb8HKVdZm24OAlStqfWsG3tMBFizBggULFixYggULFixYsAQLFixYsGAJFixYsGDBEixYsGDBgiVYsGDBggVLsKJfGwSsXP2983s9rFyrZ9cfrC4rVmmaWCRWt//ooFtSrDI+2FtbpFZ0g25ZN6vZ++zJTnUbpmrmFx9twcoVw63NPmDlilpiBZYXPCzBggULFixYggULFqxSC6xcZTibjwusTDE8ur6+38LKVLa//O31cQMrU4xOL8+mAStVGYyG1cAvY7BgwYIFS7BgwYIFC5ZgwYIFCxYswYJVmhKwcpXJ/qTCytWfvDzqYeXqT1+dwEpWp8fTCitZ6Qz8vwoWLFiwYMGCBQsWLFjRDvuSA4BVZ49ORjktWP37r79+t6YAYNWto7urkQKAFbVrE1awUsESLFiwYMGCJViwYMGCBUuwYMGCBQuWom1LEkv93uFa5LA0vvp2p+SwNLq4vpXEUrs1H0QOS1GbMPCeDrBgwYIlWLBgwYIF67/1HS4XrMHBnQGsZBsvrqewkt18/sUGrGTdfLeHlSyaJmC9oWDBggULlmDBggULFizBggULFixYggULFixYsAQrVb05HwasXOtPf7nfJrFgffLTnWbhWKWpsYRYdbzdx6Kx6nR/pzPwufqT5+ejgJWqO7w6W4eVq4xn08bPMFmpNWD902DBEixYsGDBgiVYsGDBggUrViJyALCimc5v1BwArPHlDx8OcwCw1h4/e9DnAGxWWZ38+S9suQ1hwYIFC5ZgwYIFCxYswYIFC1ZdmwwCVqoYnT877GClKhuff/94ACtVtJuzcYGVLEqsLF1/tAPHBAAAAAiD7J/aGjtgAQAAcExSazJsIKj4AAAAAElFTkSuQmCC");
+        -webkit-animation: snowy 9s linear infinite;
+        -moz-animation: snowy 9s linear infinite;
+        -o-animation: snowy 9s linear infinite;
+        -ms-animation: snowy 9s linear infinite;
+        animation: snowy 9s linear infinite;
+    }
+
+    @@-moz-keyframes snowy {
+        0% {
+            background-position: 0px 0px, 0px 0px, 0px 0px;
+        }
+
+        75% {
+            background-position: 325px 750px, 275px 600px, -5px 150px;
+        }
+
+        100% {
+            background-position: 500px 1000px, 400px 800px, 0px 300px;
+        }
+    }
+
+    @@-webkit-keyframes snowy {
+        0% {
+            background-position: 0px 0px, 0px 0px, 0px 0px;
+        }
+
+        75% {
+            background-position: 325px 750px, 275px 600px, -5px 150px;
+        }
+
+        100% {
+            background-position: 500px 1000px, 400px 800px, 0px 300px;
+        }
+    }
+
+    @@-o-keyframes snowy {
+        0% {
+            background-position: 0px 0px, 0px 0px, 0px 0px;
+        }
+
+        75% {
+            background-position: 325px 750px, 275px 600px, -5px 150px;
+        }
+
+        100% {
+            background-position: 500px 1000px, 400px 800px, 0px 300px;
+        }
+    }
+
+    @@keyframes snowy {
+        0% {
+            background-position: 0px 0px, 0px 0px, 0px 0px;
+        }
+
+        75% {
+            background-position: 325px 750px, 275px 600px, -5px 150px;
+        }
+
+        100% {
+            background-position: 500px 1000px, 400px 800px, 0px 300px;
+        }
+    }
+</style>
+
+<form asp-controller="PaymentZarinpal" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    @Html.Raw(T("Plugins.Payments.ZarinPal.Instructions"))
+                </p>
+                <hr />
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <nop-override-store-checkbox asp-for="UseSandbox_OverrideForStore" asp-input="UseSandbox"
+                            asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="UseSandbox" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-editor asp-for="UseSandbox" />
+                        <span asp-validation-for="UseSandbox"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <nop-label asp-for="Method" />
+                    </div>
+                    <div class="col-md-8">
+                        <input type="radio" asp-for="Method" value="@((int)EnumMethod.REST)"
+                            checked="@(Model.Method==EnumMethod.REST)" id="EnumMethod.REST" />
+                        <label class="forcheckbox"
+                            for="Method">@T("Plugins.Payments.ZarinPal.Fields.Method.REST")</label>
+                        <input type="radio" disabled asp-for="Method" value="@((int)EnumMethod.SOAP)"
+                            checked="@(Model.Method==EnumMethod.SOAP)" id="EnumMethod.SOAP" />
+                        <label class="forcheckbox"
+                            for="Method">@T("Plugins.Payments.ZarinPal.Fields.Method.SOAP")</label>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <nop-override-store-checkbox asp-for="MerchantID_OverrideForStore" asp-input="MerchantID"
+                            asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="MerchantID" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-editor asp-for="MerchantID" />
+                        <span asp-validation-for="MerchantID"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <nop-override-store-checkbox asp-for="BlockOverseas_OverrideForStore" asp-input="BlockOverseas"
+                            asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="BlockOverseas" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-editor asp-for="BlockOverseas" />
+                        <span asp-validation-for="BlockOverseas"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <nop-override-store-checkbox asp-for="RialToToman_OverrideForStore" asp-input="RialToToman"
+                            asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="RialToToman" />
+                    </div>
+                    <div class="col-md-1">
+                        <nop-editor asp-for="RialToToman" />
+                        <span asp-validation-for="RialToToman"></span>
+                    </div>
+                    <div class="col-md-7">
+                        <p>
+                            @Html.Raw(T("Plugins.Payments.Zarinpal.Fields.RialToToman.Instructions"))
+                        </p>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <nop-override-store-checkbox asp-for="UseZarinGate_OverrideForStore" asp-input="UseZarinGate"
+                            asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="UseZarinGate" />
+                    </div>
+                    <div class="col-md-1">
+                        <nop-editor asp-for="UseZarinGate" />
+                        <span asp-validation-for="UseZarinGate"></span>
+                    </div>
+                    <div class="col-md-7">
+                        <p>
+                            @Html.Raw(T("Plugins.Payments.Zarinpal.Fields.ZarinGate.Instructions"))
+                        </p>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <nop-label asp-for="ZarinGateType" />
+                    </div>
+                    <div class="col-md-8">
+                        <select asp-for="ZarinGateType" class="form-control"
+                            asp-items="@Html.GetEnumSelectList<EnumZarinGate>()">
+                        </select>
+                    </div>
+                </div>
+                <hr />
+                <center>
+                    <input type="submit" name="save" class="btn bg-primary btn-lg BtnSave"
+                        value="@T("Admin.Common.Save")" />
+                </center>
+            </div>
+            <div class="ZarinFooter">
+                <center class="container ZarinFooterAnimation p-3" style="direction: ltr !important;">
+                    <h2>@Html.Raw(T("Plugins.Payments.Zarinpal.Fields.ZarinGate.ContactInformation"))</h2>
+                    <ul class="list-unstyled">
+                        <li>
+                            <strong>Website:</strong> <a href="https://noptop.ir/"
+                                class="btn btn-link">www.noptop.ir</a>
+                        </li>
+                        <li>
+                            <strong>Telegram Account:</strong> <a href="https://t.me/ZandiArash"
+                                class="btn btn-link">@@ZandiArash</a>
+                        </li>
+                        <li>
+                            <strong>Telegram Page:</strong> <a href="https://t.me/NopCommerceIran"
+                                class="btn btn-link">@@NopCommerceIran</a>
+                        </li>
+                        <li>
+                            <strong>Email:</strong> <a href="mailto:ZandiArash@Hotmail.com"
+                                class="btn btn-link">ZandiArash@@Hotmail.com</a>
+                        </li>
+                        <li>
+                            <strong>GitHub:</strong> <a
+                                href="https://github.com/zandiarash/NopTop-Zarinpal-for-nopCommerce"
+                                class="btn btn-link">NopTop-Zarinpal for nopCommerce</a>
+                        </li>
+                        <li>
+                            <strong>NopCommerce Store:</strong> <a
+                                href="https://www.nopcommerce.com/en/zarinpal-payment-noptop"
+                                class="btn btn-link">Zarinpal Payment on NopCommerce</a>
+                        </li>
+                        <li>
+                            <strong>Zarinpal Docs:</strong> <a
+                                href="https://www.zarinpal.com/docs/extensions/unofficial-nopcommerce.html"
+                                class="btn btn-link">Zarinpal Extension Documentation</a>
+                        </li>
+                    </ul>
+                </center>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+<script>
+    $(document).ready(function () {
+        var lastMerchant = $("input[id='MerchantID']").val();
+        var merchantTest = "99999999-9999-9999-9999-999999999999";
+        $("input[id='UseSandbox']").click(function () {
+            if ($(this).is(':checked'))
+                $("input[id='MerchantID']").val(merchantTest);
+            else
+                $("input[id='MerchantID']").val(lastMerchant);
+        });
+    });
+
+    function Enabler(checked) {
+        if (checked)
+            $('#ZarinGateType').removeAttr('disabled');
+        else
+            $('#ZarinGateType').attr('disabled', 'disabled');
+    }
+    $(document).ready(function () {
+        Enabler('@(Model.UseZarinGate)'.toLowerCase() === 'true');
+        $("#UseZarinGate").click(function () {
+            Enabler($(this).is(':checked'));
+        });
+    });
+</script>

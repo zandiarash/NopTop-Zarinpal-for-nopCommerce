@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Payment methods",
+  "FriendlyName": "Zarinpal",
+  "SystemName": "NopTop.Payments.Zarinpal",
+  "Version": "4.70.5.1",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "NopTop Team",
+  "DisplayOrder": 1,
+  "FileName": "NopTop.Plugin.Payments.Zarinpal.dll",
+  "Description": "This plugin allows paying with Zarinpal Gateway"
+}
