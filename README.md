@@ -1,4 +1,4 @@
-# NopTop-Zarinpal-for-nopCommerce
+# NopTop Zarinpal Plugin For nopCommerce
 Zarinpal payment plugin for nopCommerce
 
 افزونه پرداخت زرین پال برای سیستم فروشگاه ساز ناپ کامرس
